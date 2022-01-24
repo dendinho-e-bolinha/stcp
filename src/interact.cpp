@@ -16,35 +16,35 @@ const char *validation_error::what() const noexcept {
     return this->reason;
 }
 
-void MenuBlock::addOption(const std::string &text, const std::function<void()> &callback) {
+void MenuBlock::add_option(const std::string &text, const std::function<void()> &callback) {
     MenuOption option = make_pair(text, callback);
     this->options.push_back(option);
 }
 
-const std::vector<MenuOption> &MenuBlock::getOptions() const {
+const std::vector<MenuOption> &MenuBlock::get_options() const {
     return this->options;
 }
 
 Menu::Menu(const std::string &title) : title(title) {}
 
-void Menu::addBlock(const MenuBlock &block) {
-    if (block.getOptions().empty())
+void Menu::add_block(const MenuBlock &block) {
+    if (block.get_options().empty())
         throw invalid_argument("Block cannot be empty");
 
     this->blocks.push_back(block);
 }
 
-void Menu::setSpecialBlock(const MenuBlock &block) {
-    if (block.getOptions().empty())
+void Menu::set_special_block(const MenuBlock &block) {
+    if (block.get_options().empty())
         throw invalid_argument("Block cannot be empty");
 
     this->special_block = block;
 }
 
-void Menu::printOptions() const {
+void Menu::print_options() const {
     size_t option_number = 1;
     for (const MenuBlock &block : this->blocks) {
-        for (const MenuOption &option: block.getOptions()) {
+        for (const MenuOption &option: block.get_options()) {
             cout << '[' << option_number << "] "
                  << option.first << '\n';
 
@@ -54,8 +54,8 @@ void Menu::printOptions() const {
         cout << endl;
     }
 
-    if (!special_block.getOptions().empty()) {
-        for (const MenuOption &option: this->special_block.getOptions()) {
+    if (!special_block.get_options().empty()) {
+        for (const MenuOption &option: this->special_block.get_options()) {
             cout << '[' << option_number << "] "
                  << option.first << '\n';
 
@@ -66,10 +66,10 @@ void Menu::printOptions() const {
     }
 }
 
-MenuOption const &Menu::getSelectedOption() const {
-    size_t num_options = this->special_block.getOptions().size();
+MenuOption const &Menu::get_selected_option() const {
+    size_t num_options = this->special_block.get_options().size();
     for (const MenuBlock &block : this->blocks)
-        num_options += block.getOptions().size();
+        num_options += block.get_options().size();
 
     ostringstream prompt_stream;
     prompt_stream << "Your option [1";
@@ -84,15 +84,15 @@ MenuOption const &Menu::getSelectedOption() const {
     });
 
     for (const MenuBlock &block : this->blocks) {
-        if (selected_option > block.getOptions().size()) {
-            selected_option -= block.getOptions().size();
+        if (selected_option > block.get_options().size()) {
+            selected_option -= block.get_options().size();
             continue;
         }
 
-        return block.getOptions().at(selected_option - 1);
+        return block.get_options().at(selected_option - 1);
     }
 
-    return this->special_block.getOptions().at(selected_option - 1);
+    return this->special_block.get_options().at(selected_option - 1);
 }
 
 void waitForInput() {
@@ -111,13 +111,13 @@ void Menu::show() const {
     cout << "\x1B[2J\x1B[;H"
          << title << '\n' << endl;
 
-    if (this->blocks.empty() && this->special_block.getOptions().empty()) {
+    if (this->blocks.empty() && this->special_block.get_options().empty()) {
         cout << "Spooky... There is nothing to see here..." << endl;
         return;
     }
 
-    this->printOptions();
-    MenuOption const &option = this->getSelectedOption();
+    this->print_options();
+    MenuOption const &option = this->get_selected_option();
     cout << endl;
 
     option.second();
@@ -129,13 +129,13 @@ void Menu::show(const string &subtitle) const {
 
     cout << subtitle << endl;
 
-    if (this->blocks.empty() && this->special_block.getOptions().empty()) {
+    if (this->blocks.empty() && this->special_block.get_options().empty()) {
         cout << "Spooky... There is nothing to see here..." << endl;
         return;
     }
 
-    this->printOptions();
-    MenuOption const &option = this->getSelectedOption();
+    this->print_options();
+    MenuOption const &option = this->get_selected_option();
     cout << endl;
 
     option.second();

@@ -27,8 +27,8 @@ class MenuBlock {
     std::vector<MenuOption> options;
 
 public:
-    void addOption(const std::string &text, const std::function<void()> &callback);
-    std::vector<MenuOption> const &getOptions() const;
+    void add_option(const std::string &text, const std::function<void()> &callback);
+    std::vector<MenuOption> const &get_options() const;
 };
 
 class Menu {
@@ -39,13 +39,13 @@ class Menu {
     /**
     * @brief Displays all the options on the console according to the menu
     */
-    void printOptions() const;
+    void print_options() const;
 
     /**
     * @brief Reads user's selected option by input
     * @return The selected option, if valid
     */
-    MenuOption const &getSelectedOption() const;
+    MenuOption const &get_selected_option() const;
 
 public:
 
@@ -59,13 +59,13 @@ public:
     * @brief Adds the given block to the menu
     * @param block The block to add to the menu
     */
-    void addBlock(const MenuBlock &block);
+    void add_block(const MenuBlock &block);
 
     /**
     * @brief Adds the given special block to the menu
     * @param block The block to add to the menu
     */
-    void setSpecialBlock(const MenuBlock &block);
+    void set_special_block(const MenuBlock &block);
 
     /**
     * @brief Display's the menu's title and options, if they exist
@@ -87,7 +87,7 @@ public:
 /**
  * @brief Waits for any user input
  */
-void waitForInput();
+void wait_for_input();
 
 
 /**
@@ -105,7 +105,7 @@ void waitForInput();
  * @return The value which was read from the input. 
  */
 template <typename T>
-T readValue(const std::string prompt, const std::string warning, const std::function<bool(const T&)> validator = [](const T&) { return true; }) noexcept(false) {
+T read_value(const std::string prompt, const std::string warning, const std::function<bool(const T&)> validator = [](const T&) { return true; }) noexcept(false) {
     T result;
 
     std::cout << "\x1B[1;33m?\x1B[0m " << prompt << std::flush;

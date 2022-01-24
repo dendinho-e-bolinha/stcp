@@ -9,7 +9,7 @@ include_directories(include)
 add_executable(stcp
     main.cpp
     src/dataset.cpp
-    src/dijkstra.cpp
+    src/graph.cpp
     src/harversine.cpp
     src/interact.cpp
 )
