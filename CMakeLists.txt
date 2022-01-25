@@ -8,8 +8,10 @@ include_directories(include)
 
 add_executable(stcp
     main.cpp
+    src/graphs/least_bus_changes.cpp
+    src/graphs/least_distance.cpp
+    src/graphs/least_money_spent.cpp
+    src/graphs/least_stops.cpp
     src/dataset.cpp
-    src/graph.cpp
     src/harversine.cpp
-    src/interact.cpp
 )
