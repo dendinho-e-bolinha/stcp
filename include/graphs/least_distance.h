@@ -28,12 +28,11 @@ class LeastDistanceGraph {
     int n;
     std::vector<Node> nodes;
 
-    void djikstra(int s);
-
+    void dijkstra(int start);
+    
 public:
     LeastDistanceGraph(int n);
     
     void add_edge(int src, int dest, double distance);
+    std::list<int> get_path(int start, int end);
 };
-
-

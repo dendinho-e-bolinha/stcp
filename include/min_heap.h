@@ -90,7 +90,7 @@ bool MinHeap<K, V>::has_key(const K& key) {
 template <class K, class V>
 void MinHeap<K,V>::insert(const K& key, const V& value) {
     if (size == max_size) return; // heap is full, do nothing
-    if (hasKey(key)) return;     // key already exists, do nothing
+    if (has_key(key)) return;     // key already exists, do nothing
     a[++size] = {key, value};
     pos[key] = size;
     up_heap(size);
@@ -99,7 +99,7 @@ void MinHeap<K,V>::insert(const K& key, const V& value) {
 // Decrease value of key to the indicated value
 template <class K, class V>
 void MinHeap<K,V>::decrease_key(const K& key, const V& value) {
-    if (!hasKey(key)) return; // key does not exist, do nothing
+    if (!has_key(key)) return; // key does not exist, do nothing
     int i = pos[key];
     if (value > a[i].value) return; // value would increase, do nothing
     a[i].value = value;

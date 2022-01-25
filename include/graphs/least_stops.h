@@ -9,7 +9,7 @@ class LeastStopsGraph {
 
    struct SearchInfo {
         int parent;
-        int distance;
+        int num_stops;
 
         bool visited;
     };
@@ -26,12 +26,13 @@ class LeastStopsGraph {
     int n;
     std::vector<Node> nodes;
 
-    void bfs(int s);
+    void bfs(int start);
 
 public:
     LeastStopsGraph(int n);
     
     void add_edge(int src, int dest);
+    std::list<int> get_path(int start, int end);
 };
 
 

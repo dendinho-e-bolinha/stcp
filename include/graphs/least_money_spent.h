@@ -17,26 +17,26 @@ class LeastMoneySpentGraph {
 
     struct Edge {
         int dest;
-
-        bool on_foot;
     };
 
     struct Node {
         std::list<Edge> adj;
 
-        std::string zone; // can be equal to "none" if is the user started or ended the journey at a non-bus-stop location
+        std::string zone;
         SearchInfo search;
     };
 
     int n;
     std::vector<Node> nodes;
 
-    void djikstra(int s);
+    void dijkstra(int start);
     
 public:
     LeastMoneySpentGraph(int n, std::vector<std::string> zones);
     
     void add_edge(int src, int dest, bool on_foot);
+    
+    std::list<int> get_path(int start, int dest);
 };
 
 
