@@ -10,11 +10,11 @@ LeastMoneySpentGraph::LeastMoneySpentGraph(int n, vector<string> zones) : n(n), 
     }
 }
 
-void LeastMoneySpentGraph::add_edge(int src, int dest) {
+void LeastMoneySpentGraph::add_edge(int src, int dest, bool on_foot) {
     if (src < 1 || dest < 1 || src > n || dest > n)
         throw invalid_argument("src or dest out of bounds");
 
-    nodes[src].adj.push_back({ dest });
+    nodes[src].adj.push_back({ dest, on_foot });
 }
 
 void LeastMoneySpentGraph::djikstra(int s) {
