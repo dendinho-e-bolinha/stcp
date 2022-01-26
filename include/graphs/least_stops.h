@@ -23,7 +23,6 @@ class LeastStopsGraph {
         SearchInfo search;
     };
 
-    int n;
     std::vector<Node> nodes;
 
     void bfs(int start);

@@ -7,17 +7,17 @@ using namespace std;
 
 #define INF 1000000
 
-LeastStopsGraph::LeastStopsGraph(int n) : n(n), nodes(n + 1) {}
+LeastStopsGraph::LeastStopsGraph(int n) : nodes(n + 1) {}
 
 void LeastStopsGraph::add_edge(int src, int dest) {
-    if (src < 1 || dest < 1 || src > n || dest > n)
+    if (src < 0 || dest < 0 || src >= nodes.size()  || dest >= nodes.size())
         throw invalid_argument("src or dest out of bounds");
 
     nodes[src].adj.push_back({ dest });
 }
 
 void LeastStopsGraph::bfs(int start) {
-    for (int i = 1; i <= n; i++) {
+    for (int i = 0; i < nodes.size(); i++) {
         nodes[i].search.visited = false;
         nodes[i].search.num_stops = INF;
         nodes[i].search.parent = 0;

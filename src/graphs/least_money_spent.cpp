@@ -5,17 +5,17 @@
 
 using namespace std;
 
-LeastMoneySpentGraph::LeastMoneySpentGraph(int n, vector<string> zones) : n(n), nodes(n + 1) {
-    for (int i = 1; i <= n; i++) {
-        nodes[i].zone = zones.at(i - 1);
+LeastMoneySpentGraph::LeastMoneySpentGraph(int n, vector<string> zones) : nodes(n + 1) {
+    for (int i = 0; i < nodes.size(); i++) {
+        nodes[i].zone = zones.at(i);
     }
 }
 
-void LeastMoneySpentGraph::add_edge(int src, int dest, bool on_foot) {
-    if (src < 1 || dest < 1 || src > n || dest > n)
+void LeastMoneySpentGraph::add_edge(int src, int dest) {
+    if (src < 0 || dest < 0 || src >= nodes.size()  || dest >= nodes.size())
         throw invalid_argument("src or dest out of bounds");
 
-    nodes[src].adj.push_back({ dest, on_foot });
+    nodes[src].adj.push_back({ dest });
 }
 
 void LeastMoneySpentGraph::dijkstra(int start) {
@@ -24,7 +24,7 @@ void LeastMoneySpentGraph::dijkstra(int start) {
         max_set.insert(to_string(i));
     }
 
-    for (int i = 1; i <= n; i++) {
+    for (int i = 0; i < nodes.size(); i++) {
         nodes[i].search.parent = 0;
         nodes[i].search.used_zones = max_set;
         nodes[i].search.visited = false;
@@ -32,7 +32,7 @@ void LeastMoneySpentGraph::dijkstra(int start) {
 
     nodes[start].search.used_zones = {};
 
-    MinHeap<int, int> h(n, -42);
+    MinHeap<int, int> h(nodes.size(), -42);
     while (h.get_size() > 0) {
         int node = h.remove_min();
 

@@ -8,17 +8,17 @@ using namespace std;
 
 #define INF 1000000
 
-LeastBusChangesGraph::LeastBusChangesGraph(int n) : n(n), nodes(n + 1) {}
+LeastBusChangesGraph::LeastBusChangesGraph(int n) : nodes(n) {}
 
 void LeastBusChangesGraph::add_edge(int src, int dest, string line) {
-    if (src < 1 || dest < 1 || src > n || dest > n)
+    if (src < 0 || dest < 0 || src >= nodes.size()  || dest >= nodes.size())
         throw invalid_argument("src or dest out of bounds");
 
     nodes[src].adj.push_back({ dest, line });
 }
 
 void LeastBusChangesGraph::dijkstra(int start) {
-    for (int i = 1; i <= n; i++) {
+    for (int i = 0; i < nodes.size(); i++) {
         Node &node = nodes.at(i);
 
         node.search.parent = 0;
@@ -28,7 +28,7 @@ void LeastBusChangesGraph::dijkstra(int start) {
 
     nodes[start].search.distance = { 0, 0 };
 
-    MinHeap<int, pair<int, int>> h(n, -1);
+    MinHeap<int, pair<int, int>> h(nodes.size(), -1);
     while (h.get_size() > 0) {
         int node = h.remove_min();
 

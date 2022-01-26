@@ -25,7 +25,6 @@ class LeastDistanceGraph {
         SearchInfo search;
     };
 
-    int n;
     std::vector<Node> nodes;
 
     void dijkstra(int start);

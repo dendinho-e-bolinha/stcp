@@ -7,17 +7,21 @@ using namespace std;
 
 #define INF 1000000
 
-LeastDistanceGraph::LeastDistanceGraph(int n) : n(n), nodes(n + 1) {}
+LeastDistanceGraph::LeastDistanceGraph(int n) : nodes(n + 1) {}
 
 void LeastDistanceGraph::add_edge(int src, int dest, double distance) {
-    if (src < 1 || dest < 1 || src > n || dest > n)
+    if (src < 0 || dest < 0 || src >= nodes.size()  || dest >= nodes.size())
         throw invalid_argument("src or dest out of bounds");
+
+    for (const Edge &edge : nodes[src].adj)
+        if (edge.dest == dest)
+            return;
 
     nodes[src].adj.push_back({ dest, distance });
 }
 
 void LeastDistanceGraph::dijkstra(int start) {
-    for (int i = 1; i <= n; i++) {
+    for (int i = 0; i < nodes.size(); i++) {
         Node &node = nodes.at(i);
 
         node.search.parent = 0;
@@ -27,7 +31,7 @@ void LeastDistanceGraph::dijkstra(int start) {
     
     nodes[start].search.distance = 0;
 
-    MinHeap<int, int> h(n, -42);
+    MinHeap<int, int> h(nodes.size(), -42);
     h.insert(start, 0);
 
     while (h.get_size() > 0) {

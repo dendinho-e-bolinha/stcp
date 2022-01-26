@@ -26,7 +26,6 @@ class LeastMoneySpentGraph {
         SearchInfo search;
     };
 
-    int n;
     std::vector<Node> nodes;
 
     void dijkstra(int start);
@@ -34,7 +33,7 @@ class LeastMoneySpentGraph {
 public:
     LeastMoneySpentGraph(int n, std::vector<std::string> zones);
     
-    void add_edge(int src, int dest, bool on_foot);
+    void add_edge(int src, int dest);
     
     std::list<int> get_path(int start, int dest);
 };

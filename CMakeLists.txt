@@ -14,5 +14,6 @@ add_executable(stcp
     src/graphs/least_stops.cpp
     src/dataset.cpp
     src/harversine.cpp
+    src/names.cpp
     src/pathfinding.cpp
 )

@@ -17,9 +17,9 @@ class Pathfinding {
     struct Line {
         std::string code;
         Direction dir;
-
         std::string name;
-        std::list<int> stops;
+
+        int first_bus_stop = -1;
     };
 
     struct BusStop {
@@ -28,6 +28,8 @@ class Pathfinding {
         std::string name;
         std::string zone;
         std::pair<double, double> point;
+
+        std::unordered_map<std::string, int> destinations;
     };
 
     std::unordered_map<std::string, int> bus_stop_positions;
@@ -36,14 +38,20 @@ class Pathfinding {
     std::vector<Line> lines;
     std::vector<BusStop> bus_stops;
 
+    std::string get_line_key(std::string code, Direction dir) const;
+
+    int get_last_bus_stop(std::string code, Direction dir) const;
+    std::list<int> get_bus_stops(std::string code, Direction dir) const;
+
     public:
-        bool has_line(std::string code) const;
+        bool has_line(std::string code, Direction dir) const;
         bool has_bus_stop(std::string code) const;
 
         void add_line(std::string code, Direction dir, std::string name);
         void add_bus_stop(std::string code, std::string name, std::string zone, std::pair<double, double> point);
         void add_line_stop(std::string line_code, Direction dir, std::string bus_stop_code);
+        void add_on_foot_segments(double max_distance);
 
-        std::list<Node> get_least_distance_path(std::string start, std::string end, double max_distance);
+        std::list<Node> get_least_distance_path(std::string start, std::string end);
 };
 
