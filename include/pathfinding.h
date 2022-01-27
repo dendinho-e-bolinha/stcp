@@ -53,5 +53,7 @@ class Pathfinding {
         void add_on_foot_segments(double max_distance);
 
         std::list<Node> get_least_distance_path(std::string start, std::string end);
+        std::list<Node> get_least_stops_path(std::string start, std::string end);
+        std::list<Node> get_least_money_spent_path(std::string start, std::string end);
 };
 

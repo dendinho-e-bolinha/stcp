@@ -7,7 +7,7 @@ using namespace std;
 
 #define INF 1000000
 
-LeastStopsGraph::LeastStopsGraph(int n) : nodes(n + 1) {}
+LeastStopsGraph::LeastStopsGraph(int n) : nodes(n) {}
 
 void LeastStopsGraph::add_edge(int src, int dest) {
     if (src < 0 || dest < 0 || src >= nodes.size()  || dest >= nodes.size())
@@ -20,7 +20,7 @@ void LeastStopsGraph::bfs(int start) {
     for (int i = 0; i < nodes.size(); i++) {
         nodes[i].search.visited = false;
         nodes[i].search.num_stops = INF;
-        nodes[i].search.parent = 0;
+        nodes[i].search.parent = -1;
     }
     
     nodes[start].search.visited = true;
@@ -57,7 +57,7 @@ list<int> LeastStopsGraph::get_path(int start, int end) {
     path.push_front(end);
 
     int current = end;
-    while ((current = nodes[current].search.parent) != 0) {
+    while ((current = nodes[current].search.parent) != -1) {
         path.push_front(current);
     }
     

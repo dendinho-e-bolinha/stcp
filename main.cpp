@@ -8,6 +8,7 @@
 #include "interact.h"
 #include "names.h"
 #include "pathfinding.h"
+#include "harversine.h"
 
 using namespace std;
 
@@ -72,18 +73,27 @@ int main() {
             path.add_line_stop(line.code, line.dir, stop);
     }
 
-    path.add_on_foot_segments(2000);
+    path.add_on_foot_segments(250);
 
-    for (const auto node : path.get_least_distance_path("MATM1", "CMP5")) {
-        cout << "STOP: " << node.stop << endl;
-        for (const auto line : node.lines.value_or<list<string>>({})) {
-            cout << "LINE: " << line << endl;
-        }
+    auto l = path.get_least_stops_path("CONT", "AP2");
+    auto current = l.begin();
+    auto next = l.begin(); next++;
 
-        cout << endl;
+    while (next != l.end() && current != l.end()) {
+        cout << (*current).stop << ',' << (*next).stop << endl;
+        current++; next++;
     }
 
-    // auto stops = dataset::read_st>ops();
+    // for (const auto node : l) {
+    //     cout << "STOP: " << node.stop << endl;
+    //     for (const auto line : node.lines.value_or<list<string>>({})) {
+    //         cout << "LINE: " << line << endl;
+    //     }
+
+    //     cout << endl;
+    // }
+
+    // auto stops = dataset::read_stops();
     // auto lines = dataset::read_lines();
 
     // try {

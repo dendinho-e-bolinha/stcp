@@ -5,7 +5,7 @@
 
 using namespace std;
 
-LeastMoneySpentGraph::LeastMoneySpentGraph(int n, vector<string> zones) : nodes(n + 1) {
+LeastMoneySpentGraph::LeastMoneySpentGraph(int n, vector<string> zones) : nodes(n) {
     for (int i = 0; i < nodes.size(); i++) {
         nodes[i].zone = zones.at(i);
     }
@@ -25,14 +25,16 @@ void LeastMoneySpentGraph::dijkstra(int start) {
     }
 
     for (int i = 0; i < nodes.size(); i++) {
-        nodes[i].search.parent = 0;
+        nodes[i].search.parent = -1;
         nodes[i].search.used_zones = max_set;
         nodes[i].search.visited = false;
     }
 
-    nodes[start].search.used_zones = {};
+    nodes[start].search.used_zones = { nodes[start].zone };
 
     MinHeap<int, int> h(nodes.size(), -42);
+    h.insert(start, 1);
+
     while (h.get_size() > 0) {
         int node = h.remove_min();
 
@@ -70,7 +72,7 @@ list<int> LeastMoneySpentGraph::get_path(int start, int end) {
     path.push_front(end);
 
     int current = end;
-    while ((current = nodes[current].search.parent) != 0) {
+    while ((current = nodes[current].search.parent) != -1) {
         path.push_front(current);
     }
     

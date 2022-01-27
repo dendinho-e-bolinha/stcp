@@ -21,7 +21,7 @@ void LeastBusChangesGraph::dijkstra(int start) {
     for (int i = 0; i < nodes.size(); i++) {
         Node &node = nodes.at(i);
 
-        node.search.parent = 0;
+        node.search.parent = -1;
         node.search.distance = { INF, INF };
         node.search.visited = false;
     }

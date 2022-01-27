@@ -3,6 +3,8 @@
 #include <stdexcept>
 #include <iostream>
 #include "graphs/least_distance.h"
+#include "graphs/least_stops.h"
+#include "graphs/least_money_spent.h"
 #include "harversine.h"
 #include "names.h"
 
@@ -132,7 +134,128 @@ list<Pathfinding::Node> Pathfinding::get_least_distance_path(string start, strin
         BusStop &stop = bus_stops.at(*current);
 
         Pathfinding::Node node;
-        node.stop = names::get_bus_stop_name(stop.code, stop.name);
+        node.stop = stop.code;
+
+        if (next != path.end()) {
+            list<string> connecting_lines;
+
+            auto it = stop.destinations.begin();
+            while (it != stop.destinations.end()) {
+                if ((*it).second == *next) {
+                    int line_index = line_positions.at((*it).first);
+                    Line &line = lines.at(line_index);
+                    connecting_lines.push_back(names::get_line_name(line.name, line.dir));
+                }
+
+                it++;
+            }
+
+            node.lines = connecting_lines;
+        }
+
+        result.push_back(node);
+        current++; next++;
+    }
+    
+    return result;
+}
+
+list<Pathfinding::Node> Pathfinding::get_least_stops_path(string start, string end) {
+    if (!has_bus_stop(start) || !has_bus_stop(end)) return {};
+
+    LeastStopsGraph graph(bus_stops.size());
+
+    for (const Line &line : lines) {
+        list<int> line_bus_stops = get_bus_stops(line.code, line.dir);
+        
+        auto current = line_bus_stops.begin();
+        auto next = line_bus_stops.begin(); next++;
+
+        while (current != line_bus_stops.end() && next != line_bus_stops.end()) {
+            graph.add_edge(
+                *current,
+                *next
+            );
+
+            current++; next++;
+        }
+    }
+
+    list<Pathfinding::Node> result;
+    
+    list<int> path = graph.get_path(bus_stop_positions.at(start), bus_stop_positions.at(end));
+
+    auto current = path.begin();
+    auto next = path.begin(); next++;
+
+    while (current != path.end()) {
+        BusStop &stop = bus_stops.at(*current);
+
+        Pathfinding::Node node;
+        node.stop = stop.code;
+
+        if (next != path.end()) {
+            list<string> connecting_lines;
+
+            auto it = stop.destinations.begin();
+            while (it != stop.destinations.end()) {
+                if ((*it).second == *next) {
+                    int line_index = line_positions.at((*it).first);
+                    Line &line = lines.at(line_index);
+                    connecting_lines.push_back(names::get_line_name(line.name, line.dir));
+                }
+
+                it++;
+            }
+
+            node.lines = connecting_lines;
+        }
+
+        result.push_back(node);
+        current++; next++;
+    }
+    
+    return result;
+}
+
+list<Pathfinding::Node> Pathfinding::get_least_money_spent_path(string start, string end) {
+    if (!has_bus_stop(start) || !has_bus_stop(end)) return {};
+
+    vector<string> zones(bus_stops.size());
+    for (int i = 0; i < bus_stops.size(); i++) {
+        zones.at(i) = bus_stops[i].zone;
+    }
+
+    LeastMoneySpentGraph graph(bus_stops.size(), zones);
+
+    for (const Line &line : lines) {
+        list<int> line_bus_stops = get_bus_stops(line.code, line.dir);
+        
+        auto current = line_bus_stops.begin();
+        auto next = line_bus_stops.begin(); next++;
+
+        while (current != line_bus_stops.end() && next != line_bus_stops.end()) {
+            graph.add_edge(
+                *current,
+                *next
+            );
+
+            current++; next++;
+        }
+    }
+
+    list<Pathfinding::Node> result;
+    
+    list<int> path = graph.get_path(bus_stop_positions.at(start), bus_stop_positions.at(end));
+
+    auto current = path.begin();
+    auto next = path.begin(); next++;
+
+    while (current != path.end()) {
+        BusStop &stop = bus_stops.at(*current);
+
+        Pathfinding::Node node;
+        node.stop = stop.code;
 
         if (next != path.end()) {
             list<string> connecting_lines;

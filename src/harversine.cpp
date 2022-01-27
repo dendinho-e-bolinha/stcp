@@ -13,6 +13,8 @@ namespace harversine {
         // convert to radians
         lat1 *= M_PI / 180.0;
         lat2 *= M_PI / 180.0;
+        lon1 *= M_PI / 180.0;
+        lon2 *= M_PI / 180.0;
 
         double dLat = lat2 - lat1;
         double dLon = lon2 - lon1;
