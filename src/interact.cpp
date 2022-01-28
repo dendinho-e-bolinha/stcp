@@ -79,7 +79,7 @@ MenuOption const &Menu::get_selected_option() const {
     prompt_stream << "]: ";
 
     string prompt = prompt_stream.str();
-    size_t selected_option = readValue<size_t>(prompt, "Please input a number from the list", [num_options](const size_t &value) {
+    size_t selected_option = read_value<size_t>(prompt, "Please input a number from the list", [num_options](const size_t &value) {
         return value >= 1 && value <= num_options;
     });
 
@@ -95,7 +95,7 @@ MenuOption const &Menu::get_selected_option() const {
     return this->special_block.get_options().at(selected_option - 1);
 }
 
-void waitForInput() {
+void wait_for_input() {
     if (!cin) {
         if (cin.eof())
             throw end_of_file_exception();

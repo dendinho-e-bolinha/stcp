@@ -3,12 +3,13 @@
 #include <vector>
 #include <list>
 #include <string>
+#include <optional>
+#include <deque>
 
 class LeastBusChangesGraph {
 
     struct SearchInfo {
         int parent;
-        std::string line_taken; // the line taken to get from the parent to this node
 
         std::pair<int, int> distance; // [line_changes, bus_stops]
         bool visited;
@@ -16,13 +17,12 @@ class LeastBusChangesGraph {
 
     struct Edge {
         int dest;
-
-        std::string line;
+        int weight;
     };
 
 
     struct Node {
-        std::vector<Edge> adj;
+        std::deque<Edge> adj;
         SearchInfo search;
     };
 
@@ -33,10 +33,7 @@ class LeastBusChangesGraph {
 public:
     LeastBusChangesGraph(int n);
     
-    void add_edge(int src, int dest, std::string line);
-    std::list<std::pair<int, std::string>> get_path(int start, int end);
+    void resize(int n, bool force);
+    void add_edge(int src, int dest, int weight);
+    std::list<int> get_path(int start, int end);
 };
-
-/*
-    [ {34, "205"}, { 2100, "304" }, { 568, "304" }, { 786, "" } ]
-*/

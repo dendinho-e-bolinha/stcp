@@ -31,8 +31,9 @@ namespace dataset {
     /**
      * @brief
      *
-     * @param line
-     * @param dir
+     * @param names
+     * @param line 
+     * @param dir The line's direction
      * @return vector<string>
      */
     Line read_line(std::map<std::string, std::string> names, std::string line, Direction dir);

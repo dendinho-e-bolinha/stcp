@@ -9,11 +9,6 @@
 
 class Pathfinding {
 
-    struct Node {
-        std::string stop;
-        std::optional<std::list<std::string>> lines;
-    };
-
     struct Line {
         std::string code;
         Direction dir;
@@ -44,16 +39,23 @@ class Pathfinding {
     std::list<int> get_bus_stops(std::string code, Direction dir) const;
 
     public:
+        struct Node {
+            std::string stop;
+            std::optional<std::list<std::string>> lines;
+        };
+
         bool has_line(std::string code, Direction dir) const;
         bool has_bus_stop(std::string code) const;
+        bool is_night_line(std::string code) const;
 
         void add_line(std::string code, Direction dir, std::string name);
         void add_bus_stop(std::string code, std::string name, std::string zone, std::pair<double, double> point);
         void add_line_stop(std::string line_code, Direction dir, std::string bus_stop_code);
         void add_on_foot_segments(double max_distance);
 
-        std::list<Node> get_least_distance_path(std::string start, std::string end);
-        std::list<Node> get_least_stops_path(std::string start, std::string end);
-        std::list<Node> get_least_money_spent_path(std::string start, std::string end);
+        std::list<Node> get_least_distance_path(std::string start, std::string end, bool is_night);
+        std::list<Node> get_least_stops_path(std::string start, std::string end, bool is_night);
+        std::list<Node> get_least_money_spent_path(std::string start, std::string end, bool is_night);
+        std::list<Node> get_least_bus_changes_path(std::string start, std::string end, bool is_night);
 };
 

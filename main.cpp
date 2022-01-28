@@ -5,110 +5,70 @@
 #include <utility>
 #include "config.h"
 #include "dataset.h"
-#include "interact.h"
 #include "names.h"
 #include "pathfinding.h"
 #include "harversine.h"
+#include "ui.h"
 
 using namespace std;
 
 
-// pair<double, double> askCoordinates() {
-//     string point = read_value<GetLine>("Coordinates: ", "Please insert a valid point in the format 'x y'");
 
-//     stringstream ss(point);
-//     double x, y;
-
-//     if (!(ss >> x >> y))
-//         throw validation_error("The format of the point is incorrect");
-
-//     return make_pair(x, y);
-// }
-
-
-// string askStops(const vector<string> &stops) {
-//     string stop = read_value<string>("Stop name: ", "Please insert a valid stop", [&stops](const string &stop){
-//         string stopUpper = transform(stop.begin(), stop.end(), stop.begin(), to);
-//         if (!find(stops.begin(), stops.end(), stopUpper))
-//             throw validation_error("The stop you entered doesn't exist");
-//         return true;
-//     });
-    
-//     return std::transform(stop.begin(), stop.end(), stop.begin(), ::toupper);
-// }
-
-
-// bool askOnFoot() {
-//     char onFoot = read_value<char>("Willing to walk? ", "Please insert a valid answer ('Y'/'N')", [](const char &c) { return toupper(c) == 'N' || toupper(c) == 'Y'; });
-//     return &onFoot == "Y";
-// }
-
-// bool allowBusChange() {
-//     char allowBusChange = read_value<char>("Allow app to calculate route with bug changes?", "Please input a valid answer ('Y'/'N')", [](const char &c) { return toupper(c) == 'N' || toupper(c) == 'Y'; });
-//     return &allowBusChange == "Y";
-// }
-
-
-
-// MenuBlock read_stop() {
-//     MenuBlock starting_point_block;
-//     starting_point_block.add_option("Coordinates", [](){
-
-//     });
-//     starting_point_block.add_option("Stop Name", [](){});
-
-// }
 
 int main() {
 
-    Pathfinding path;
+    try {
+        Pathfinding path;
 
-    for (const auto &stop : dataset::read_stops())
-        path.add_bus_stop(stop.code, stop.name, stop.zone, stop.point);
+        for (const auto &stop : dataset::read_stops())
+            path.add_bus_stop(stop.code, stop.name, stop.zone, stop.point);
 
-    for (const auto &line : dataset::read_lines()) {
-        path.add_line(line.code, line.dir, line.name);
+        for (const auto &line : dataset::read_lines()) {
+            path.add_line(line.code, line.dir, line.name);
 
-        for (const auto &stop : line.stops)
-            path.add_line_stop(line.code, line.dir, stop);
+            for (const auto &stop : line.stops)
+                path.add_line_stop(line.code, line.dir, stop);
+        }
+
+        UI ui{path};
+        ui.start();
+
+    } catch (end_of_file_exception &err) {
+        cerr << err.what();
     }
 
-    path.add_on_foot_segments(250);
+    return 0;
+}
 
-    auto l = path.get_least_stops_path("CONT", "AP2");
-    auto current = l.begin();
-    auto next = l.begin(); next++;
+//     path.add_on_foot_segments(300);
 
-    while (next != l.end() && current != l.end()) {
-        cout << (*current).stop << ',' << (*next).stop << endl;
-        current++; next++;
-    }
+//     auto l = path.get_least_bus_changes_path("HSJ12", "CQ8");
+//     auto current = l.begin();
+//     auto next = l.begin(); next++;
 
-    // for (const auto node : l) {
-    //     cout << "STOP: " << node.stop << endl;
-    //     for (const auto line : node.lines.value_or<list<string>>({})) {
-    //         cout << "LINE: " << line << endl;
-    //     }
+//     while (next != l.end() && current != l.end()) {
+//         cout << (*current).stop << ',';
+//         cout << (*next).stop << ',';
+//         cout << (*next).lines.value_or<list<string>>({ "" }).front() << ',';
 
-    //     cout << endl;
-    // }
+//         cout << (*next).lines.value_or<list<string>>({ "" }).front() << endl;
+//         current++; next++;
+//     }
 
-    // auto stops = dataset::read_stops();
-    // auto lines = dataset::read_lines();
+// //     cout << "Pog1";
 
-    // try {
-    //     Menu menu("Please select the starting point!");
+//     for (const auto node : l) {
+//         cout << "STOP: " << node.stop << endl;
+//         for (const auto line : node.lines.value_or<list<string>>({})) {
+//             cout << "LINE: " << line << endl;
+//         }
 
-
-    //     bool is_running = true;
-    //     MenuBlock exit_block;
-    //     exit_block.add_option("Exit", [&is_running]() { is_running = false; });
-
-    //     menu.add_block(starting_point_block);
+// // cout << "Pog2";
+// //         cout << endl;
+// //     }
+// //     cout << "Pog3";
 
 
-
-    // } catch (end_of_file_exception exception) {}
 
 
     // for (const auto &stop : dataset::read_stops()) {
@@ -133,6 +93,3 @@ int main() {
 
     //     cout << '\n' << endl;
     // }
-
-    return 0;
-}
