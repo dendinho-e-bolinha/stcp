@@ -27,7 +27,19 @@ class MenuBlock {
     std::vector<MenuOption> options;
 
 public:
+    /**
+     * @brief Adds a new option to the MenuBlock instance
+     * 
+     * @param text Text of the option
+     * @param callback Callback function executed for the option
+     */
     void add_option(const std::string &text, const std::function<void()> &callback);
+
+    /**
+     * @brief Gets the options object of the MenuBlock instance
+     * 
+     * @return std::vector<MenuOption> const& options of the MenuBlock
+     */
     std::vector<MenuOption> const &get_options() const;
 };
 
@@ -88,7 +100,6 @@ public:
  * @brief Waits for any user input
  */
 void wait_for_input();
-
 
 /**
  * @brief Prompts the user to provide a value through console input.

@@ -1,5 +1,11 @@
 #pragma once
 
+/**
+ * @brief Enum representing the direction
+ *
+ * @note NORMAL -> 0, REVERSED -> 1
+ */
 enum Direction {
-    NORMAL = 0, REVERSED = 1
+    NORMAL, 
+    REVERSED
 };

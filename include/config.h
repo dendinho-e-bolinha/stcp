@@ -3,4 +3,4 @@
 #include <string>
 
 #define ROOT string("../")
-#define DATASET ROOT + "dataset/"
+#define DATASET ROOT + "dataset/";

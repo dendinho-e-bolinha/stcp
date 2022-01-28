@@ -29,16 +29,27 @@ namespace dataset {
     };
 
     /**
-     * @brief
+     * 
+     * @brief Reads the information stored for a certain line
      *
-     * @param names
-     * @param line 
+     * @param names 
+     * @param line The line's code
      * @param dir The line's direction
-     * @return vector<string>
+     * @return Returns a Line instance
      */
     Line read_line(std::map<std::string, std::string> names, std::string line, Direction dir);
 
+    /**
+     * @brief Reads the stops from the files
+     * 
+     * @return std::vector<Stop> Returns a vector of Stop instances
+     */
     std::vector<Stop> read_stops();
 
+    /**
+     * @brief Reads the lines from the files
+     * 
+     * @return std::vector<Line> Returns a vector of Line instances
+     */
     std::vector<Line> read_lines();
 }
