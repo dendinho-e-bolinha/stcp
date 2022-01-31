@@ -104,7 +104,6 @@ void wait_for_input();
 /**
  * @brief Prompts the user to provide a value through console input.
  * On interactive terminals, it will be done in a "fancy" fashion and in a single line.
- * Otherwise, it will be done in a more "traditional" manner. 
  * 
  * @param prompt The text that will be used to prompt the user for a value.
  * @param warning The error message that will be presented to the user if the value could not be parsed or if the validator function returns false.
